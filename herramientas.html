@@ -1,0 +1,68 @@
+<?php include("conexion.php"); ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>HERRAMIENTAS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="estilos.css">
+  <script>
+    function toggleMenu() {
+      document.getElementById("submenu").classList.toggle("oculto");
+    }
+  </script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <img src="nova.PNG" alt="FERRENOVA" style="height: 150px; margin-right: 80px;">
+    <h2>HERRAMIENTAS<br>Lo mejor para tu trabajo o casa</h2>
+  </header>
+
+  <!-- NAV -->
+  <nav class="menu">
+    <button onclick="toggleMenu()">MENU ▼</button>
+    <ul id="submenu" class="submenu oculto">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="herramientas.html">Herramientas</a></li>
+      <li><a href="formulario.html">Formulario</a></li>
+      <li><a href="compras.html">Compras</a></li>
+      <li><a href="#">Electricidad</a></li>
+      <li><a href="#">Jardinería</a></li>
+      <li><a href="#">Clavos y tornillos</a></li>
+      <li><a href="#">Marcas</a></li>
+      <li><a href="ayuda.php">Ayuda</a></li>
+    </ul>
+  </nav>
+
+  <!-- PRODUCTOS -->
+  <section class="productos">
+    <article>
+      <img src="herra/bellota.png" alt="Serrucho" class="imagen-dinamica">
+      <p class="texto-imagen">Serrucho Bellota Profesional<br>$527.38</p>
+    </article>
+    <article>
+      <img src="herra/roto.jpg" alt="Rotomartillo" class="dos">
+      <p class="textdos">Rotomartillo ElectroNeumático (Makita)<br>$3600.00</p>
+    </article>
+    <article>
+      <img src="herra/madera.webp" alt="Sierra circular" class="tres">
+      <p class="texttres">Sierra Circular para Madera (Truper)<br>$1650.00</p>
+    </article>
+    <article>
+      <img src="herra/cortadora.webp" alt="Cortadora" class="cuatro">
+      <p class="textcuatro">Esmeriladora profecional<br>11000RP, 720W (Makita)<br>$1219.00</p>
+    </article>
+    <article>
+      <img src="herra/taladro.webp" alt="Taladro" class="cinco">
+      <p class="textcinco">Taladro de Impacto Profecional (Bosch)<br>$1524.04</p>
+    </article>
+    <article>
+      <img src="herra/termoo.jpg" alt="Termómetro" class="seis">
+      <p class="textseis">Termofusora Para Ppr<br>Kid con dados<br>(Tuboplus)<br>$1385.00</p>
+    </article>
+  </section>
+
+</body>
+</html>

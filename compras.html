@@ -1,0 +1,97 @@
+<?php include("conexion.php"); ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>COMPRAS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="estilos.css">
+  <script>
+    function toggleMenu() {
+      document.getElementById("submenu").classList.toggle("oculto");
+    }
+  </script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <img src="nova.PNG" alt="FERRENOVA" style="height: 150px; margin-right: 80px;">
+    <h2>COMPRAS<br>Lo mejor para tu trabajo o casa</h2>
+  </header>
+
+  <!-- NAV -->
+  <nav class="menu">
+    <button onclick="toggleMenu()">MENU ▼</button>
+    <ul id="submenu" class="submenu oculto">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="herramientas.html">Herramientas</a></li>
+      <li><a href="formulario.html">Formulario</a></li>
+      <li><a href="compras.html">Compras</a></li>
+      <li><a href="#">Electricidad</a></li>
+      <li><a href="#">Jardinería</a></li>
+      <li><a href="#">Clavos y tornillos</a></li>
+      <li><a href="#">Marcas</a></li>
+      <li><a href="ayuda.php">Ayuda</a></li>
+    </ul>
+  </nav>
+
+  <!-- FORMULARIO DE COMPRA -->
+  <section>
+    <?php
+      // Guardar nueva compra
+      if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["guardar"])) {
+          $fecha = $conexion->real_escape_string($_POST["fecha"]);
+          $monto = $conexion->real_escape_string($_POST["monto"]);
+          $descripcion = $conexion->real_escape_string($_POST["descripcion"]);
+          $estado = $conexion->real_escape_string($_POST["estado"]);
+
+          $sql = "INSERT INTO compras (fecha, monto, descripcion, estado) VALUES ('$fecha', '$monto', '$descripcion', '$estado')";
+          if ($conexion->query($sql)) {
+              echo "<p>✅ Compra registrada correctamente</p>";
+          } else {
+              echo "<p>❌ Error al registrar: " . $conexion->error . "</p>";
+          }
+      }
+    ?>
+
+    <form method="POST">
+      <label>Fecha:</label> <input type="date" name="fecha" required><br>
+      <label>Monto:</label> <input type="number" name="monto" step="0.01" required><br>
+      <label>Descripción:</label> <input type="text" name="descripcion" required><br>
+      <label>Estado:</label>
+      <select name="estado">
+        <option value="Pendiente">Pendiente</option>
+        <option value="Pagada">Pagada</option>
+        <option value="Cancelada">Cancelada</option>
+      </select><br>
+      <button type="submit" name="guardar">Guardar Compra</button>
+    </form>
+
+    <hr>
+
+    <?php
+      // Mostrar compras registradas
+      $sql = "SELECT id_compra, fecha, monto, descripcion, estado FROM compras";
+      $resultado = $conexion->query($sql);
+
+      if ($resultado->num_rows > 0) {
+          echo "<h3>🧾 Compras registradas:</h3><ul>";
+          while ($fila = $resultado->fetch_assoc()) {
+              echo "<li><strong>ID:</strong> {$fila['id_compra']}, 
+                        <strong>Fecha:</strong> {$fila['fecha']}, 
+                        <strong>Monto:</strong> \${$fila['monto']}, 
+                        <strong>Descripción:</strong> {$fila['descripcion']}, 
+                        <strong>Estado:</strong> {$fila['estado']}</li>";
+          }
+          echo "</ul>";
+      } else {
+          echo "<p>📭 No hay compras registradas</p>";
+      }
+
+      $conexion->close();
+    ?>
+  </section>
+
+</body>
+</html>

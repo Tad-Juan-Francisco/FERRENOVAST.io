@@ -1,0 +1,66 @@
+<?php include("conexion.php"); ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>FERRENOVA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="estilos.css">
+  <script>
+    function toggleMenu() {
+      document.getElementById("submenu").classList.toggle("oculto");
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Encabezado -->
+  <header>
+    <img src="nova.PNG" alt="FERRENOVA" style="height: 150px; margin-right: 80px;">
+    <h2>CENTRO FERRENOVA<br>Lo mejor para tu trabajo o casa</h2>
+  </header>
+
+  <!-- Navegación -->
+  <nav class="menu">
+    <button onclick="toggleMenu()">MENU ▼</button>
+    <ul id="submenu" class="submenu oculto">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="herramientas.html">Herramientas</a></li>
+      <li><a href="formulario.html">Formulario</a></li>
+      <li><a href="#">Material De Construcción</a></li>
+      <li><a href="#">Electricidad</a></li>
+      <li><a href="#">Jardinería</a></li>
+      <li><a href="#">Clavos y tornillos</a></li>
+      <li><a href="#">Marcas</a></li>
+      <li><a href="#">Ayuda</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main>
+    <section id="Funcionamiento">
+      <div class="cuadro-mensaje">
+        <h1>Funcionamiento</h1>
+        <p>
+          Este espacio digital ha sido diseñado pensando en facilitar el acceso a materiales de trabajo que se ajusten a las necesidades específicas de cada cliente.<br><br>
+          🔍 ¿Qué te ofrece nuestro sitio?<br>
+          🏷️ Amplia variedad de marcas reconocidas.<br>
+          ✅ Materiales de alta calidad, garantizando durabilidad, seguridad y eficiencia.<br>
+          💻 Compra en línea rápida, segura y desde la comodidad de tu hogar o lugar de trabajo.<br>
+          💰 Precios accesibles y promociones especiales que se ajustan al bolsillo del cliente.<br>
+          📦 Opciones de envío confiables para recibir tu pedido sin complicaciones.<br>
+          🧰 Opción de recoger tu herramienta en nuestro negocio personalmente.<br>
+          🛠️ Reseñas y comparativas para ayudarte a tomar decisiones informadas.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="pie-pagina">
+    <p>&copy; 2025 Ferretería El Tornillo Feliz</p>
+  </footer>
+
+</body>
+</html>

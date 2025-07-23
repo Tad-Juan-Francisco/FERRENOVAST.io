@@ -1,0 +1,192 @@
+/* Configuración general */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;  
+    background-image: url('ferre.png'); 
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-position: center; 
+    color: #fff;
+}
+header {
+    display: flex;
+    align-items:center;
+    border-bottom: 2px solid #aaa;
+    background-color: #e27209;
+    color: #080808; 
+    font-size: 20px;
+    padding: 15px;
+    text-align:center; 
+    font-family: Arial Black, sans-serif;
+}
+.cuadro-mensaje {
+    width: 700px;
+    padding: 25px;
+    background-color: rgb(255, 208, 0);
+    border: 2px solid #080808;
+    border-radius: 8px;
+    font-size: 18px;
+    color:rgb(0, 0, 0);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: justify;
+    margin-left: 350px;
+
+}
+.menu {
+  width: 200px;
+  padding: 20px 20px;
+  background: #e67e22;
+}
+
+.menu button {
+  background: #d35400;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 50px  0px;
+  background: #f39c12;
+}
+
+.submenu li a {
+  display: block;
+  padding: 10px 0px;
+  text-decoration: none;
+  color: white;
+  border-top: 1px solid #e67e22;
+}
+
+.oculto {
+  display: none;
+}
+body {
+  margin: 0; 
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+}
+ main {
+      flex: 1; 
+      padding: 100px;
+    }
+.pie-pagina {
+  background-color: #bdc3c7;
+  text-align: center;
+  padding: 50px;
+  font-size: 14px;
+  margin-top: auto;
+}
+.imagen-dinamica {
+  width: 300px; 
+  transition: all 0.3s ease-in-out; 
+  position: relative; 
+  left: 20px;  
+  top: 10px;  
+}
+.texto-imagen {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  font-family: 'Verdana', sans-serif; /* tipo de letra moderno y legible */
+  position: relative; 
+  left: 20px; /* mueve el texto 20px hacia la derecha */
+}
+.dos {
+  width: 200px; 
+  transition: all 0.3s ease-in-out; 
+  position: relative; 
+  left: 500px;  
+  top: -280px;  
+}
+.textdos {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  font-family: 'Verdana', sans-serif; /* tipo de letra moderno y legible */
+  position: relative; 
+  left: 470px; /* mueve el texto 20px hacia la derecha */
+  top: -250px;  
+}
+.tres {
+  width: 200px; 
+  transition: all 0.3s ease-in-out; 
+  position: relative; 
+  left: 900px;  
+  top: -550px;  
+}
+.texttres {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  font-family: 'Verdana', sans-serif; /* tipo de letra moderno y legible */
+  position: relative; 
+  left: 900px; /* mueve el texto 20px hacia la derecha */
+  top: -530px;  
+}
+.cuatro {
+  width: 200px; 
+  transition: all 0.3s ease-in-out; 
+  position: relative; 
+  left: 65px;  
+  top: -350px;   
+}
+.textcuatro {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  font-family: 'Verdana', sans-serif; /* tipo de letra moderno y legible */
+  position: relative; 
+  left: 900px; /* mueve el texto 20px hacia la derecha */
+  top: -530px;  
+}
+.cinco {
+  width: 200px; /* tamaño base */
+  transition: all 0.3s ease-in-out; /* animación suave */
+  position: relative; /* permite moverla con top/left */
+  left: 500px;  /* mueve la imagen 20px a la derecha */
+  top: -520px;   /* mueve la imagen 10px hacia abajo */
+}
+.seis {
+  width: 200px; /* tamaño base */
+  transition: all 0.3s ease-in-out; /* animación suave */
+  position: relative; /* permite moverla con top/left */
+  left: 900px;  /* mueve la imagen 20px a la derecha */
+  top: -700px;   /* mueve la imagen 10px hacia abajo */
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  min-width: 300px;
+}
+
+input, button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+button:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}
