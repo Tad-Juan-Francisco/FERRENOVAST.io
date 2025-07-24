@@ -1,35 +1,5 @@
-<?php
-include("conexion.php");
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-$mensaje = "";
 
-// Crear usuario
-if (isset($_POST['crear'])) {
-  $nombre = $conexion->real_escape_string($_POST['nombre']);
-  $contraseña = $conexion->real_escape_string($_POST['contraseña']);
-  $hash = password_hash($contraseña, PASSWORD_DEFAULT);
-  $sql = "INSERT INTO usuarios (nombre, contraseña) VALUES ('$nombre', '$hash')";
-  $mensaje = $conexion->query($sql) ? "✅ Usuario creado" : "❌ Error: " . $conexion->error;
-}
 
-// Actualizar usuario
-if (isset($_POST['actualizar']) && !empty($_POST['id'])) {
-  $id = intval($_POST['id']);
-  $nombre = $conexion->real_escape_string($_POST['nombre']);
-  $contraseña = $conexion->real_escape_string($_POST['contraseña']);
-  $hash = password_hash($contraseña, PASSWORD_DEFAULT);
-  $sql = "UPDATE usuarios SET nombre='$nombre', contraseña='$hash' WHERE id=$id";
-  $mensaje = $conexion->query($sql) ? "✏️ Usuario actualizado" : "❌ Error: " . $conexion->error;
-}
-
-// Eliminar usuario
-if (isset($_POST['eliminar']) && !empty($_POST['id'])) {
-  $id = intval($_POST['id']);
-  $sql = "DELETE FROM usuarios WHERE id=$id";
-  $mensaje = $conexion->query($sql) ? "🗑️ Usuario eliminado" : "❌ Error: " . $conexion->error;
-}
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
