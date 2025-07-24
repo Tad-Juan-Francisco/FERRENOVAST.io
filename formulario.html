@@ -1,13 +1,9 @@
 <?php
-// conexion segura
 include("conexion.php");
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
-// variable de resultado
 $mensaje = "";
 
-// procesar POST con seguridad
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
   $nombre = isset($_POST['nombre']) ? $conexion->real_escape_string($_POST['nombre']) : "";
@@ -19,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mensaje = $conexion->query($sql) ? "✅ Usuario creado correctamente" : "❌ Error: " . $conexion->error;
   }
 
-  if (isset($_POST['actualizar']) && $id > 0) {
+  if (isset($_POST['actualizar']) && $id > 0 && $nombre && $contraseña) {
     $hash = password_hash($contraseña, PASSWORD_DEFAULT);
     $sql = "UPDATE usuarios SET nombre='$nombre', contraseña='$hash' WHERE id=$id";
     $mensaje = $conexion->query($sql) ? "✏️ Usuario actualizado" : "❌ Error: " . $conexion->error;
@@ -35,39 +31,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Formulario limpio</title>
+  <title>FORMULARIO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="estilos.css">
+  <script>
+    function toggleMenu() {
+      document.getElementById("submenu").classList.toggle("oculto");
+    }
+  </script>
 </head>
 <body>
 
-  <h2>Gestión de usuarios</h2>
+  <!-- HEADER -->
+  <header>
+    <img src="nova.PNG" alt="FERRENOVA" style="height: 150px; margin-right: 80px;">
+    <h2>FORMULARIO<br>Lo mejor para tu trabajo o casa</h2>
+  </header>
 
-  <?php if ($mensaje): ?>
-    <div class="mensaje"><?= $mensaje ?></div>
-  <?php endif; ?>
+  <!-- NAV -->
+  <nav class="menu">
+    <button onclick="toggleMenu()">MENU ▼</button>
+    <ul id="submenu" class="submenu oculto">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="herramientas.html">Herramientas</a></li>
+      <li><a href="formulario.php">Formulario</a></li>
+      <li><a href="compras.php">Compras</a></li>
+      <li><a href="#">Electricidad</a></li>
+      <li><a href="#">Jardinería</a></li>
+      <li><a href="#">Clavos y tornillos</a></li>
+      <li><a href="#">Marcas</a></li>
+      <li><a href="ayuda.php">Ayuda</a></li>
+    </ul>
+  </nav>
 
-  <form method="POST">
-    <label>ID:</label><input type="number" name="id"><br>
-    <label>Nombre:</label><input type="text" name="nombre" required><br>
-    <label>Contraseña:</label><input type="text" name="contraseña" required><br>
-    <button name="crear">Crear</button>
-    <button name="actualizar">Actualizar</button>
-    <button name="eliminar">Eliminar</button>
-  </form>
+  <!-- FORMULARIO DE USUARIOS -->
+  <section>
+    <?php if (!empty($mensaje)) echo "<div class='mensaje'>$mensaje</div><br>"; ?>
 
-  <hr>
-  <h3>📋 Usuarios registrados:</h3>
-  <?php
-  $result = $conexion->query("SELECT id, nombre FROM usuarios ORDER BY id ASC");
-  if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-      echo "🔹 ID: {$row['id']} - Nombre: {$row['nombre']}<br>";
+    <form method="POST">
+      <label>ID:</label><input type="number" name="id"><br>
+      <label>Nombre:</label><input type="text" name="nombre" required><br>
+      <label>Contraseña:</label><input type="text" name="contraseña" required><br>
+      <button type="submit" name="crear">Crear</button>
+      <button type="submit" name="actualizar">Actualizar</button>
+      <button type="submit" name="eliminar">Eliminar</button>
+    </form><br>
+
+    <h3>📋 Usuarios registrados:</h3>
+    <?php
+    $result = $conexion->query("SELECT * FROM usuarios");
+    if ($result && $result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+        echo "🔹 ID: {$row['id']}, Nombre: {$row['nombre']}<br>";
+      }
+    } else {
+      echo "📭 No hay usuarios registrados<br>";
     }
-  } else {
-    echo "📭 No hay usuarios aún.";
-  }
-  ?>
+    ?>
+  </section>
 
 </body>
 </html>
