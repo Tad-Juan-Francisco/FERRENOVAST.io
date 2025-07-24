@@ -1,4 +1,35 @@
-<?php include("conexion.php"); ?>
+<?php
+include("conexion.php");
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+$mensaje = "";
+
+// Crear usuario
+if (isset($_POST['crear'])) {
+  $nombre = $conexion->real_escape_string($_POST['nombre']);
+  $contraseña = $conexion->real_escape_string($_POST['contraseña']);
+  $hash = password_hash($contraseña, PASSWORD_DEFAULT);
+  $sql = "INSERT INTO usuarios (nombre, contraseña) VALUES ('$nombre', '$hash')";
+  $mensaje = $conexion->query($sql) ? "✅ Usuario creado" : "❌ Error: " . $conexion->error;
+}
+
+// Actualizar usuario
+if (isset($_POST['actualizar']) && !empty($_POST['id'])) {
+  $id = intval($_POST['id']);
+  $nombre = $conexion->real_escape_string($_POST['nombre']);
+  $contraseña = $conexion->real_escape_string($_POST['contraseña']);
+  $hash = password_hash($contraseña, PASSWORD_DEFAULT);
+  $sql = "UPDATE usuarios SET nombre='$nombre', contraseña='$hash' WHERE id=$id";
+  $mensaje = $conexion->query($sql) ? "✏️ Usuario actualizado" : "❌ Error: " . $conexion->error;
+}
+
+// Eliminar usuario
+if (isset($_POST['eliminar']) && !empty($_POST['id'])) {
+  $id = intval($_POST['id']);
+  $sql = "DELETE FROM usuarios WHERE id=$id";
+  $mensaje = $conexion->query($sql) ? "🗑️ Usuario eliminado" : "❌ Error: " . $conexion->error;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,7 +57,7 @@
     <ul id="submenu" class="submenu oculto">
       <li><a href="index.html">Inicio</a></li>
       <li><a href="herramientas.html">Herramientas</a></li>
-      <li><a href="formulario.html">Formulario</a></li>
+      <li><a href="formulario.php">Formulario</a></li>
       <li><a href="compras.php">Compras</a></li>
       <li><a href="#">Electricidad</a></li>
       <li><a href="#">Jardinería</a></li>
@@ -38,31 +69,7 @@
 
   <!-- FORMULARIO DE USUARIOS -->
   <section>
-    <?php
-    // Crear usuario
-    if (isset($_POST['crear'])) {
-      $nombre = $conexion->real_escape_string($_POST['nombre']);
-      $contraseña  = $conexion->real_escape_string($_POST['contraseña']);
-      $sql = "INSERT INTO usuarios (nombre, contraseña) VALUES ('$nombre', '$contraseña')";
-      echo $conexion->query($sql) ? "✅ Usuario creado<br>" : "❌ Error: " . $conexion->error . "<br>";
-    }
-
-    // Actualizar usuario
-    if (isset($_POST['actualizar'])) {
-      $id     = intval($_POST['id']);
-      $nombre = $conexion->real_escape_string($_POST['nombre']);
-      $contraseña  = $conexion->real_escape_string($_POST['contraseña']);
-      $sql = "UPDATE usuarios SET nombre='$nombre', contraseña='$contraseña' WHERE id=$id";
-      echo $conexion->query($sql) ? "✏️ Usuario actualizado<br>" : "❌ Error: " . $conexion->error . "<br>";
-    }
-
-    // Eliminar usuario
-    if (isset($_POST['eliminar'])) {
-      $id = intval($_POST['id']);
-      $sql = "DELETE FROM usuarios WHERE id=$id";
-      echo $conexion->query($sql) ? "🗑️ Usuario eliminado<br>" : "❌ Error: " . $conexion->error . "<br>";
-    }
-    ?>
+    <?php if (!empty($mensaje)) echo "<div class='mensaje'>$mensaje</div><br>"; ?>
 
     <form method="POST">
       <label>ID:</label><input type="number" name="id"><br>
@@ -74,12 +81,11 @@
     </form><br>
 
     <?php
-    // Mostrar todos los usuarios
     $result = $conexion->query("SELECT * FROM usuarios");
-    if ($result->num_rows > 0) {
+    if ($result && $result->num_rows > 0) {
       echo "<strong>📋 Lista de usuarios:</strong><br>";
       while ($row = $result->fetch_assoc()) {
-        echo "🔹 ID: {$row['id']}, Nombre: {$row['nombre']}, Contraseña: {$row['contraseña']}<br>";
+        echo "🔹 ID: {$row['id']}, Nombre: {$row['nombre']}<br>";
       }
     } else {
       echo "📭 No hay usuarios registrados<br>";
