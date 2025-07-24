@@ -1,35 +1,33 @@
 <?php
+// conexion segura
 include("conexion.php");
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+// variable de resultado
 $mensaje = "";
 
-// Procesar acciones solo si el formulario fue enviado
+// procesar POST con seguridad
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Crear usuario
-  if (isset($_POST['crear'])) {
-    $nombre = $conexion->real_escape_string($_POST['nombre']);
-    $contraseña = $conexion->real_escape_string($_POST['contraseña']);
+  $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+  $nombre = isset($_POST['nombre']) ? $conexion->real_escape_string($_POST['nombre']) : "";
+  $contraseña = isset($_POST['contraseña']) ? $conexion->real_escape_string($_POST['contraseña']) : "";
+
+  if (isset($_POST['crear']) && $nombre && $contraseña) {
     $hash = password_hash($contraseña, PASSWORD_DEFAULT);
     $sql = "INSERT INTO usuarios (nombre, contraseña) VALUES ('$nombre', '$hash')";
-    $mensaje = $conexion->query($sql) ? "✅ Usuario creado" : "❌ Error al crear: " . $conexion->error;
+    $mensaje = $conexion->query($sql) ? "✅ Usuario creado correctamente" : "❌ Error: " . $conexion->error;
   }
 
-  // Actualizar usuario
-  if (isset($_POST['actualizar']) && !empty($_POST['id'])) {
-    $id = intval($_POST['id']);
-    $nombre = $conexion->real_escape_string($_POST['nombre']);
-    $contraseña = $conexion->real_escape_string($_POST['contraseña']);
+  if (isset($_POST['actualizar']) && $id > 0) {
     $hash = password_hash($contraseña, PASSWORD_DEFAULT);
     $sql = "UPDATE usuarios SET nombre='$nombre', contraseña='$hash' WHERE id=$id";
-    $mensaje = $conexion->query($sql) ? "✏️ Usuario actualizado" : "❌ Error al actualizar: " . $conexion->error;
+    $mensaje = $conexion->query($sql) ? "✏️ Usuario actualizado" : "❌ Error: " . $conexion->error;
   }
 
-  // Eliminar usuario
-  if (isset($_POST['eliminar']) && !empty($_POST['id'])) {
-    $id = intval($_POST['id']);
+  if (isset($_POST['eliminar']) && $id > 0) {
     $sql = "DELETE FROM usuarios WHERE id=$id";
-    $mensaje = $conexion->query($sql) ? "🗑️ Usuario eliminado" : "❌ Error al eliminar: " . $conexion->error;
+    $mensaje = $conexion->query($sql) ? "🗑️ Usuario eliminado" : "❌ Error: " . $conexion->error;
   }
 }
 ?>
@@ -37,62 +35,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>FORMULARIO</title>
+  <title>Formulario limpio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="estilos.css">
-  <script>
-    function toggleMenu() {
-      document.getElementById("submenu").classList.toggle("oculto");
-    }
-  </script>
 </head>
 <body>
-  <!-- HEADER -->
-  <header>
-    <img src="nova.PNG" alt="FERRENOVA" style="height: 150px; margin-right: 80px;">
-    <h2>FORMULARIO<br>Lo mejor para tu trabajo o casa</h2>
-  </header>
 
-  <!-- NAV -->
-  <nav class="menu">
-    <button onclick="toggleMenu()">MENU ▼</button>
-    <ul id="submenu" class="submenu oculto">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="herramientas.html">Herramientas</a></li>
-      <li><a href="formulario.php">Formulario</a></li>
-      <li><a href="compras.php">Compras</a></li>
-      <li><a href="#">Electricidad</a></li>
-      <li><a href="#">Jardinería</a></li>
-      <li><a href="#">Clavos y tornillos</a></li>
-      <li><a href="#">Marcas</a></li>
-      <li><a href="ayuda.php">Ayuda</a></li>
-    </ul>
-  </nav>
+  <h2>Gestión de usuarios</h2>
 
-  <!-- FORMULARIO DE USUARIOS -->
-  <section>
-    <?php if (!empty($mensaje)) echo "<div class='mensaje'>$mensaje</div><br>"; ?>
+  <?php if ($mensaje): ?>
+    <div class="mensaje"><?= $mensaje ?></div>
+  <?php endif; ?>
 
-    <form method="POST">
-      <label>ID:</label><input type="number" name="id"><br>
-      <label>Nombre:</label><input type="text" name="nombre" required><br>
-      <label>Contraseña:</label><input type="text" name="contraseña" required><br>
-      <button type="submit" name="crear">Crear</button>
-      <button type="submit" name="actualizar">Actualizar</button>
-      <button type="submit" name="eliminar">Eliminar</button>
-    </form><br>
+  <form method="POST">
+    <label>ID:</label><input type="number" name="id"><br>
+    <label>Nombre:</label><input type="text" name="nombre" required><br>
+    <label>Contraseña:</label><input type="text" name="contraseña" required><br>
+    <button name="crear">Crear</button>
+    <button name="actualizar">Actualizar</button>
+    <button name="eliminar">Eliminar</button>
+  </form>
 
-    <?php
-    $result = $conexion->query("SELECT * FROM usuarios");
-    if ($result && $result->num_rows > 0) {
-      echo "<strong>📋 Lista de usuarios:</strong><br>";
-      while ($row = $result->fetch_assoc()) {
-        echo "🔹 ID: {$row['id']}, Nombre: {$row['nombre']}<br>";
-      }
-    } else {
-      echo "📭 No hay usuarios registrados<br>";
+  <hr>
+  <h3>📋 Usuarios registrados:</h3>
+  <?php
+  $result = $conexion->query("SELECT id, nombre FROM usuarios ORDER BY id ASC");
+  if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+      echo "🔹 ID: {$row['id']} - Nombre: {$row['nombre']}<br>";
     }
-    ?>
-  </section>
+  } else {
+    echo "📭 No hay usuarios aún.";
+  }
+  ?>
+
 </body>
 </html>
