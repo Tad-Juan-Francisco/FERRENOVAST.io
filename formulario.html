@@ -1,5 +1,38 @@
+<?php
+include("conexion.php");
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+$mensaje = "";
 
+// Procesar acciones solo si el formulario fue enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Crear usuario
+  if (isset($_POST['crear'])) {
+    $nombre = $conexion->real_escape_string($_POST['nombre']);
+    $contraseña = $conexion->real_escape_string($_POST['contraseña']);
+    $hash = password_hash($contraseña, PASSWORD_DEFAULT);
+    $sql = "INSERT INTO usuarios (nombre, contraseña) VALUES ('$nombre', '$hash')";
+    $mensaje = $conexion->query($sql) ? "✅ Usuario creado" : "❌ Error al crear: " . $conexion->error;
+  }
 
+  // Actualizar usuario
+  if (isset($_POST['actualizar']) && !empty($_POST['id'])) {
+    $id = intval($_POST['id']);
+    $nombre = $conexion->real_escape_string($_POST['nombre']);
+    $contraseña = $conexion->real_escape_string($_POST['contraseña']);
+    $hash = password_hash($contraseña, PASSWORD_DEFAULT);
+    $sql = "UPDATE usuarios SET nombre='$nombre', contraseña='$hash' WHERE id=$id";
+    $mensaje = $conexion->query($sql) ? "✏️ Usuario actualizado" : "❌ Error al actualizar: " . $conexion->error;
+  }
+
+  // Eliminar usuario
+  if (isset($_POST['eliminar']) && !empty($_POST['id'])) {
+    $id = intval($_POST['id']);
+    $sql = "DELETE FROM usuarios WHERE id=$id";
+    $mensaje = $conexion->query($sql) ? "🗑️ Usuario eliminado" : "❌ Error al eliminar: " . $conexion->error;
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,7 +47,6 @@
   </script>
 </head>
 <body>
-
   <!-- HEADER -->
   <header>
     <img src="nova.PNG" alt="FERRENOVA" style="height: 150px; margin-right: 80px;">
@@ -62,6 +94,5 @@
     }
     ?>
   </section>
-
 </body>
 </html>
