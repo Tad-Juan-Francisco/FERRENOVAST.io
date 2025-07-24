@@ -21,23 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $nombre = isset($_POST['nombre']) ? $conexion->real_escape_string($_POST['nombre']) : "";
   $contraseña = isset($_POST['contraseña']) ? $conexion->real_escape_string($_POST['contraseña']) : "";
 
-  if (!empty($nombre) && !empty($contraseña)) {
-    $hash = password_hash($contraseña, PASSWORD_DEFAULT);
+  
 
-    if (isset($_POST['crear'])) {
-      $sql = "INSERT INTO usuarios (nombre, contraseña) VALUES ('$nombre', '$hash')";
-      $mensaje = $conexion->query($sql) ? "✅ Usuario creado correctamente" : "❌ Error al crear: " . $conexion->error;
+   
     }
 
-    if (isset($_POST['actualizar']) && $id > 0) {
-      $sql = "UPDATE usuarios SET nombre='$nombre', contraseña='$hash' WHERE id=$id";
-      $mensaje = $conexion->query($sql) ? "✏️ Usuario actualizado" : "❌ Error al actualizar: " . $conexion->error;
     }
   }
 
-  if (isset($_POST['eliminar']) && $id > 0) {
-    $sql = "DELETE FROM usuarios WHERE id=$id";
-    $mensaje = $conexion->query($sql) ? "🗑️ Usuario eliminado" : "❌ Error al eliminar: " . $conexion->error;
+  
   }
 }
 ?>
